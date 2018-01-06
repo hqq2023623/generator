@@ -51,11 +51,18 @@
   tables.
 -->
 <!ELEMENT context (property*, plugin*, commentGenerator?, (connectionFactory | jdbcConnection), javaTypeResolver?,
-                         javaModelGenerator, sqlMapGenerator?, javaClientGenerator?, table+)>
+                         javaModelGenerator, sqlMapGenerator?, javaClientGenerator?,javaParam?, table+)>
 <!ATTLIST context id ID #REQUIRED
   defaultModelType CDATA #IMPLIED
   targetRuntime CDATA #IMPLIED
   introspectedColumnImpl CDATA #IMPLIED>
+
+<!-- 自定义XML节点 -->
+<!ELEMENT javaParam (property*)>
+<!ATTLIST javaParam
+        baseDAO CDATA #REQUIRED
+        baseService CDATA #REQUIRED
+        buildType CDATA #REQUIRED>
 
 <!--
   The connectionFactory element is used to describe the connection factory used

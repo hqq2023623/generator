@@ -20,6 +20,7 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.Document;
+import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.XmlConstants;
@@ -43,6 +44,7 @@ import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByExample
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByPrimaryKeySelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByPrimaryKeyWithBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByPrimaryKeyWithoutBLOBsElementGenerator;
+import org.mybatis.generator.custom.SelectByParamGenerator;
 
 /**
  * 
@@ -66,26 +68,32 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
 
         context.getCommentGenerator().addRootComment(answer);
 
+//        addResultMapWithoutBLOBsElement(answer);
+//        addResultMapWithBLOBsElement(answer);
+//        addMyBatis3UpdateByExampleWhereClauseElement(answer);
+//        addBlobColumnListElement(answer);
+//        addSelectByExampleWithBLOBsElement(answer);
+//        addSelectByExampleWithoutBLOBsElement(answer);
+//        addSelectByPrimaryKeyElement(answer);
+//        addDeleteByPrimaryKeyElement(answer);
+//        addDeleteByExampleElement(answer);
+//        addInsertElement(answer);
+//        addInsertSelectiveElement(answer);
+//        addCountByExampleElement(answer);
+//        addUpdateByExampleSelectiveElement(answer);
+//        addUpdateByExampleWithBLOBsElement(answer);
+//        addUpdateByExampleWithoutBLOBsElement(answer);
+//        addUpdateByPrimaryKeySelectiveElement(answer);
+//        addUpdateByPrimaryKeyWithBLOBsElement(answer);
+//        addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
+
         addResultMapWithoutBLOBsElement(answer);
-        addResultMapWithBLOBsElement(answer);
-        addExampleWhereClauseElement(answer);
-        addMyBatis3UpdateByExampleWhereClauseElement(answer);
         addBaseColumnListElement(answer);
-        addBlobColumnListElement(answer);
-        addSelectByExampleWithBLOBsElement(answer);
-        addSelectByExampleWithoutBLOBsElement(answer);
-        addSelectByPrimaryKeyElement(answer);
-        addDeleteByPrimaryKeyElement(answer);
-        addDeleteByExampleElement(answer);
-        addInsertElement(answer);
         addInsertSelectiveElement(answer);
-        addCountByExampleElement(answer);
-        addUpdateByExampleSelectiveElement(answer);
-        addUpdateByExampleWithBLOBsElement(answer);
-        addUpdateByExampleWithoutBLOBsElement(answer);
         addUpdateByPrimaryKeySelectiveElement(answer);
-        addUpdateByPrimaryKeyWithBLOBsElement(answer);
-        addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
+        addDeleteByPrimaryKeyElement(answer);
+        addSelectByPrimaryKeyElement(answer);
+        addSelectByParamElement(answer);
 
         return answer;
     }
@@ -247,6 +255,7 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         elementGenerator.setIntrospectedTable(introspectedTable);
         elementGenerator.setProgressCallback(progressCallback);
         elementGenerator.setWarnings(warnings);
+        parentElement.addElement(new TextElement("")); // 增加一行空白的隔行
         elementGenerator.addElements(parentElement);
     }
 
@@ -264,4 +273,12 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
 
         return document;
     }
+
+    protected void addSelectByParamElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateSelectByPrimaryKey()) {
+            AbstractXmlElementGenerator elementGenerator = new SelectByParamGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+
 }

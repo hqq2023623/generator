@@ -42,6 +42,7 @@ import org.mybatis.generator.internal.JDBCConnectionFactory;
 import org.mybatis.generator.internal.ObjectFactory;
 import org.mybatis.generator.internal.PluginAggregator;
 import org.mybatis.generator.internal.db.DatabaseIntrospector;
+import org.mybatis.generator.custom.xml.JavaParamConfiguration;
 
 /**
  * The Class Context.
@@ -564,4 +565,16 @@ public class Context extends PropertyHolder {
     public void setConnectionFactoryConfiguration(ConnectionFactoryConfiguration connectionFactoryConfiguration) {
         this.connectionFactoryConfiguration = connectionFactoryConfiguration;
     }
+
+    /** 自定义配置参数 */
+    private JavaParamConfiguration javaParamConfiguration;
+
+    public JavaParamConfiguration getJavaParamConfiguration() {
+        return javaParamConfiguration;
+    }
+
+    public void setJavaParamConfiguration(JavaParamConfiguration javaParamConfiguration) {
+        this.javaParamConfiguration = javaParamConfiguration;
+    }
+
 }
