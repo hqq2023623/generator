@@ -80,10 +80,26 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
         }
 
         if (stringHasValue(rootInterface)) {
+
             FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(
                     rootInterface);
-            interfaze.addSuperInterface(fqjt);
             interfaze.addImportedType(fqjt);
+            //定制 extends BaseMapper<T>
+            StringBuilder baseMapperDomain = new StringBuilder();
+            baseMapperDomain.append(rootInterface);
+            baseMapperDomain.append("<");
+            baseMapperDomain.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+            baseMapperDomain.append(">");
+            interfaze.addSuperInterface(new FullyQualifiedJavaType(
+                    baseMapperDomain.toString()));
+            //导入实体类
+            StringBuilder fullEntity = new StringBuilder();
+            fullEntity.append(context.getJavaModelGeneratorConfiguration().getTargetPackage());
+            fullEntity.append(".");
+            fullEntity.append(introspectedTable.getFullyQualifiedTable().getDomainObjectName());
+            FullyQualifiedJavaType importEntity = new FullyQualifiedJavaType(fullEntity.toString());
+            interfaze.addImportedType(importEntity);
+
         }
 
 //        addCountByExampleMethod(interfaze);
