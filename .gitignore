@@ -56,3 +56,34 @@
 /.project
 .idea
 *.iml
+
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+#custom
+*.classpath
+*.project
+.settings/
+*.iml
+.idea/
+*.log
+local-values.conf
+bin
+*.idea
+*.eml
+.project
+.springBeans
+.DS_Store
+*/test-output/**
+*/target/**
+antx.properties
+doc
+out
+disconf/

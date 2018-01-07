@@ -92,6 +92,7 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
             baseMapperDomain.append(">");
             interfaze.addSuperInterface(new FullyQualifiedJavaType(
                     baseMapperDomain.toString()));
+
             //导入实体类
             StringBuilder fullEntity = new StringBuilder();
             fullEntity.append(context.getJavaModelGeneratorConfiguration().getTargetPackage());
