@@ -134,8 +134,11 @@ public class SelectByParamGenerator extends
 
     //添加where条件
     private void appendWhere(XmlElement answer, StringBuilder sb) {
-        XmlElement dynamicElement = new XmlElement("where");
+        XmlElement dynamicElement = new XmlElement("trim");
         answer.addElement(dynamicElement);
+        dynamicElement.addAttribute(new Attribute("prefix","WHERE"));
+        dynamicElement.addAttribute(new Attribute("prefixOverrides","AND |OR "));
+        dynamicElement.addAttribute(new Attribute("suffixOverrides",","));
 
         String javaPropertyName;
         for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable
@@ -162,7 +165,6 @@ public class SelectByParamGenerator extends
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
                     .getParameterClause(introspectedColumn));
-            sb.append(',');
 
             isNotNullElement.addElement(new TextElement(sb.toString()));
         }
