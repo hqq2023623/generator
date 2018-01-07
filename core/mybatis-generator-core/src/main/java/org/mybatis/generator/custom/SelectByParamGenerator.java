@@ -25,8 +25,14 @@ public class SelectByParamGenerator extends
     @Override
     public void addElements(XmlElement parentElement) {
         this.appendSelectAll(parentElement);
+        parentElement.addElement(new TextElement(""));
         this.appendSelectByParam(parentElement);
+        parentElement.addElement(new TextElement(""));
         this.appendSelectCountByParam(parentElement);
+        parentElement.addElement(new TextElement(""));
+        this.appendWhere(parentElement);
+        parentElement.addElement(new TextElement(""));
+
 
     }
 
@@ -91,10 +97,8 @@ public class SelectByParamGenerator extends
         sb.append("FROM "); //$NON-NLS-1$
         sb.append(introspectedTable
                 .getAliasedFullyQualifiedTableNameAtRuntime());
+        sb.append("\n<include refid=\"where_by_param\" />");
         answer.addElement(new TextElement(sb.toString()));
-
-        this.appendWhere(answer, sb);
-        this.addOrderByElement(answer,sb);
 
         parentElement.addElement(answer);
     }
@@ -125,21 +129,26 @@ public class SelectByParamGenerator extends
         sb.append("FROM "); //$NON-NLS-1$
         sb.append(introspectedTable
                 .getAliasedFullyQualifiedTableNameAtRuntime());
+        sb.append("\n<include refid=\"where_by_param\" />");
         answer.addElement(new TextElement(sb.toString()));
-
-        this.appendWhere(answer, sb);
 
         parentElement.addElement(answer);
     }
 
-    //添加where条件
-    private void appendWhere(XmlElement answer, StringBuilder sb) {
+    //添加where条件，作为一个 <sql id="where_by_param" />
+    private void appendWhere(XmlElement answer) {
+        XmlElement whereSql = new XmlElement("sql");
+        whereSql.addAttribute(new Attribute("id","where_by_param"));
+        answer.addElement(whereSql);
+
         XmlElement dynamicElement = new XmlElement("trim");
-        answer.addElement(dynamicElement);
+        whereSql.addElement(dynamicElement);
+
         dynamicElement.addAttribute(new Attribute("prefix","WHERE"));
         dynamicElement.addAttribute(new Attribute("prefixOverrides","AND |OR "));
         dynamicElement.addAttribute(new Attribute("suffixOverrides",","));
 
+        StringBuilder sb = new StringBuilder();
         String javaPropertyName;
         for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable
                 .getNonPrimaryKeyColumns())) {
@@ -168,6 +177,9 @@ public class SelectByParamGenerator extends
 
             isNotNullElement.addElement(new TextElement(sb.toString()));
         }
+
+        this.addOrderByElement(whereSql,sb);
+
     }
 
     //添加 order by 和 limit
