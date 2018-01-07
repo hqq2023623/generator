@@ -72,7 +72,7 @@
         -->
         <!-- targetPackage：mapper接口mapper.java生成的位置 -->
         <!--<javaClientGenerator type="XMLMAPPER" targetPackage="com.mmall.dao" targetProject=".\src\main\java">-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="mapper" targetProject="${target.project}">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="${root.package}.mapper" targetProject="${target.project}">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="true"/>
             <property name="rootInterface" value="${root.package}.${base.mapper}"/>
