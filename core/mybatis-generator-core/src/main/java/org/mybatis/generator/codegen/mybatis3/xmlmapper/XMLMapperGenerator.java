@@ -88,6 +88,7 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
 //        addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
 
         addResultMapWithoutBLOBsElement(answer);
+        addResultMapWithBLOBsElement(answer);
         addBaseColumnListElement(answer);
         addInsertSelectiveElement(answer);
         addUpdateByPrimaryKeySelectiveElement(answer);
