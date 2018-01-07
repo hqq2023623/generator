@@ -119,7 +119,7 @@ public class SelectByParamGenerator extends
         sb.append("SELECT ");
 
         answer.addElement(new TextElement(sb.toString()));
-        answer.addElement(new TextElement(" count * "));
+        answer.addElement(new TextElement(" count(*) "));
 
         sb.setLength(0);
         sb.append("FROM "); //$NON-NLS-1$
