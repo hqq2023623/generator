@@ -145,7 +145,7 @@ public class SelectByParamGenerator extends
         whereSql.addElement(dynamicElement);
 
         dynamicElement.addAttribute(new Attribute("prefix","WHERE"));
-        dynamicElement.addAttribute(new Attribute("prefixOverrides","AND |OR "));
+        dynamicElement.addAttribute(new Attribute("prefixOverrides","AND | OR "));
         dynamicElement.addAttribute(new Attribute("suffixOverrides",","));
 
         StringBuilder sb = new StringBuilder();
