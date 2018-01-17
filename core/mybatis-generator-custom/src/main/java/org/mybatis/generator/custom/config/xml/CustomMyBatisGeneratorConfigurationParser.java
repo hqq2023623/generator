@@ -1,17 +1,17 @@
 /**
- *    Copyright 2006-2017 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2017 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 /*
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,9 +48,7 @@ import org.mybatis.generator.config.PluginConfiguration;
 import org.mybatis.generator.config.PropertyHolder;
 import org.mybatis.generator.config.SqlMapGeneratorConfiguration;
 import org.mybatis.generator.config.TableConfiguration;
-import org.mybatis.generator.custom.config.CustomJavaClientGeneratorConfiguration;
-import org.mybatis.generator.custom.config.CustomJavaModelGeneratorConfiguration;
-import org.mybatis.generator.custom.config.CustomSqlMapGeneratorConfiguration;
+import org.mybatis.generator.custom.config.*;
 import org.mybatis.generator.custom.util.CustomContextUtil;
 import org.mybatis.generator.exception.XMLParserException;
 import org.mybatis.generator.internal.ObjectFactory;
@@ -70,7 +68,7 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 /**
  * This class parses configuration files into the new Configuration API.
- * 
+ *
  * @author Jeff Butler
  */
 public class CustomMyBatisGeneratorConfigurationParser {
@@ -169,7 +167,7 @@ public class CustomMyBatisGeneratorConfigurationParser {
         ModelType mt = defaultModelType == null ? null : ModelType
                 .getModelType(defaultModelType);
 
-        Context context = new Context(mt);
+        Context context = new CustomContext(mt);
         context.setId(id);
         if (stringHasValue(introspectedColumnImpl)) {
             context.setIntrospectedColumnImpl(introspectedColumnImpl);
@@ -240,7 +238,7 @@ public class CustomMyBatisGeneratorConfigurationParser {
     }
 
     protected void parseTable(Context context, Node node) {
-        TableConfiguration tc = new TableConfiguration(context);
+        TableConfiguration tc = new CustomTableConfiguration(context);
         context.addTableConfiguration(tc);
 
         Properties attributes = parseAttributes(node);
@@ -389,7 +387,36 @@ public class CustomMyBatisGeneratorConfigurationParser {
                 parseDomainObjectRenamingRule(tc, childNode);
             } else if ("columnRenamingRule".equals(childNode.getNodeName())) { //$NON-NLS-1$
                 parseColumnRenamingRule(tc, childNode);
+            } else if ("searchCondition".equalsIgnoreCase(childNode.getNodeName())) {
+                this.parseSearchCondition((CustomTableConfiguration) tc, childNode);
+
             }
+        }
+    }
+
+    private void parseSearchCondition(CustomTableConfiguration tc, Node node) {
+        NodeList nodeList = node.getChildNodes();
+        SearchCondition condition;
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node childNode = nodeList.item(i);
+            if (childNode.getNodeType() != Node.ELEMENT_NODE) {
+                continue;
+            }
+            NamedNodeMap map = childNode.getAttributes();
+            condition = new SearchCondition();
+            condition.setColumn(map.getNamedItem("column").getNodeValue());
+            condition.setProperty(map.getNamedItem("property").getNodeValue());
+            condition.setOperation(map.getNamedItem("operation").getNodeValue());
+            if (map.getNamedItem("value") != null) {
+                condition.setValue(map.getNamedItem("value").getNodeValue());
+            }
+            if (map.getNamedItem("isAnd") != null) {
+                condition.setIsAnd(map.getNamedItem("isAnd").getNodeValue());
+            }
+            if ("between".equalsIgnoreCase(condition.getOperation())) {
+                condition.setSecondValue(map.getNamedItem("secondValue").getNodeValue());
+            }
+            tc.addCondition(condition);
         }
     }
 
@@ -603,7 +630,7 @@ public class CustomMyBatisGeneratorConfigurationParser {
         Properties attributes = parseAttributes(node);
         String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
         String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
-        if("default".equals(targetProject)) {
+        if ("default".equals(targetProject)) {
             targetPackage = CustomContextUtil.getRootPath();
         }
 
@@ -633,7 +660,7 @@ public class CustomMyBatisGeneratorConfigurationParser {
         String type = attributes.getProperty("type"); //$NON-NLS-1$
         String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
         String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
-        if("default".equals(targetProject)) {
+        if ("default".equals(targetProject)) {
             targetPackage = CustomContextUtil.getRootPath();
         }
         String implementationPackage = attributes
@@ -805,10 +832,10 @@ public class CustomMyBatisGeneratorConfigurationParser {
      * This method resolve a property from one of the three sources: system properties,
      * properties loaded from the &lt;properties&gt; configuration element, and
      * "extra" properties that may be supplied by the Maven or Ant environments.
-     * 
+     *
      * <p>If there is a name collision, system properties take precedence, followed by
      * configuration properties, followed by extra properties.
-     * 
+     *
      * @param key property key
      * @return the resolved property.  This method will return null if the property is
      *     undefined in any of the sources.

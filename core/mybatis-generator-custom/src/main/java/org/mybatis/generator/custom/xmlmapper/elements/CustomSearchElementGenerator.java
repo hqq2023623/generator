@@ -7,6 +7,11 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator;
+import org.mybatis.generator.config.TableConfiguration;
+import org.mybatis.generator.custom.config.CustomTableConfiguration;
+import org.mybatis.generator.custom.config.SearchCondition;
+
+import java.util.List;
 
 
 /**
@@ -82,7 +87,6 @@ public class CustomSearchElementGenerator extends
         //select的 parameterType属性
         String parameterType = introspectedTable.getBaseRecordType();
         answer.addAttribute(new Attribute("parameterType", parameterType));
-
         context.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
@@ -155,6 +159,53 @@ public class CustomSearchElementGenerator extends
         dynamicElement.addAttribute(new Attribute("prefixOverrides", "AND | OR "));
         dynamicElement.addAttribute(new Attribute("suffixOverrides", ","));
 
+        CustomTableConfiguration customTableConfiguration = (CustomTableConfiguration) introspectedTable.getTableConfiguration();
+        List<SearchCondition> conditionList = customTableConfiguration.getConditionList();
+        if (conditionList == null || conditionList.isEmpty()) {
+            this.appendEquals(dynamicElement);
+        } else {
+            this.appendSearchCondition(dynamicElement, conditionList);
+        }
+
+    }
+
+    //模糊查询
+    private void appendSearchCondition(XmlElement parent, List<SearchCondition> conditionList) {
+        StringBuilder sb = new StringBuilder();
+        for (SearchCondition condition : conditionList) {
+            XmlElement searchElement = new XmlElement("if");
+            parent.addElement(searchElement);
+            sb.setLength(0);
+            sb.append(condition.getProperty());
+            sb.append(" != null");
+            searchElement.addAttribute(new Attribute("test", sb.toString()));
+
+            //2. if标签内容
+            sb.setLength(0);
+            if (condition.getIsAnd().equalsIgnoreCase("true")) {
+                sb.append("AND ");
+            } else {
+                sb.append("OR ");
+            }
+            sb.append("`").append(condition.getColumn()).append("` ");
+            if (condition.getOperation().equalsIgnoreCase("between")) {
+                sb.append(" ").append(condition.getOperation()).append(" ");
+                sb.append("#{").append(condition.getValue()).append("}").append(" and ");
+                sb.append("#{").append(condition.getSecondValue()).append("}");
+            } else if (condition.getOperation().equalsIgnoreCase("like")) {
+                //LIKE CONCAT('%',#{desc, jdbcType=VARCHAR},'%')
+                sb.append(" LIKE CONTACT(#{").append(condition.getProperty()).append("},'%')");
+            } else {
+                sb.append(" ").append(condition.getOperation()).append(" ");
+                sb.append(" #{").append(condition.getProperty()).append("} ");
+            }
+            searchElement.addElement(new TextElement(sb.toString()));
+        }
+
+    }
+
+    //精确查询
+    private void appendEquals(XmlElement dynamicElement) {
         StringBuilder sb = new StringBuilder();
         String javaPropertyName;
         for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable
@@ -184,7 +235,6 @@ public class CustomSearchElementGenerator extends
 
             isNotNullElement.addElement(new TextElement(sb.toString()));
         }
-
     }
 
 }

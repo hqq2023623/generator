@@ -64,4 +64,11 @@ public class XmlConstants {
 
     public static final String MYBATIS_GENERATOR_CONFIG_PUBLIC_ID =
             "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"; //$NON-NLS-1$
+
+    public static final String CUSTOM_MYBATIS_GENERATOR_CONFIG_SYSTEM_ID =
+            "http://mybatis.org/dtd/mybatis-generator-config_custom.dtd"; //$NON-NLS-1$
+
+    public static final String CUSTOM_MYBATIS_GENERATOR_CONFIG_PUBLIC_ID =
+            "-//mybatis.org//DTD MyBatis Generator Configuration custom//EN"; //$NON-NLS-1$
+
 }

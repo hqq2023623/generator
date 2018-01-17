@@ -13,27 +13,26 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.mybatis.generator.config;
+package org.mybatis.generator.custom.config;
+
+import org.mybatis.generator.api.dom.xml.Attribute;
+import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.config.*;
+
+import java.util.*;
 
 import static org.mybatis.generator.internal.util.EqualsUtil.areEqual;
 import static org.mybatis.generator.internal.util.HashCodeUtil.SEED;
 import static org.mybatis.generator.internal.util.HashCodeUtil.hash;
-import static org.mybatis.generator.internal.util.StringUtility.composeFullyQualifiedTableName;
-import static org.mybatis.generator.internal.util.StringUtility.isTrue;
-import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
+import static org.mybatis.generator.internal.util.StringUtility.*;
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
-
-import java.util.*;
-
-import org.mybatis.generator.api.dom.xml.Attribute;
-import org.mybatis.generator.api.dom.xml.XmlElement;
 
 /**
  * The Class TableConfiguration.
  *
  * @author Jeff Butler
  */
-public class TableConfiguration extends PropertyHolder {
+public class CustomTableConfiguration extends TableConfiguration {
 
     private boolean insertStatementEnabled;
 
@@ -90,8 +89,11 @@ public class TableConfiguration extends PropertyHolder {
 
     private List<IgnoredColumnPattern> ignoredColumnPatterns = new ArrayList<IgnoredColumnPattern>();
 
-    public TableConfiguration(Context context) {
-        super();
+    //查询列
+    private List<SearchCondition> conditionList = new LinkedList<>();
+
+    public CustomTableConfiguration(Context context) {
+        super(context);
 
         this.modelType = context.getDefaultModelType();
 
@@ -179,11 +181,11 @@ public class TableConfiguration extends PropertyHolder {
             return true;
         }
 
-        if (!(obj instanceof TableConfiguration)) {
+        if (!(obj instanceof CustomTableConfiguration)) {
             return false;
         }
 
-        TableConfiguration other = (TableConfiguration) obj;
+        CustomTableConfiguration other = (CustomTableConfiguration) obj;
 
         return areEqual(this.catalog, other.catalog)
                 && areEqual(this.schema, other.schema)
@@ -608,4 +610,17 @@ public class TableConfiguration extends PropertyHolder {
     public void setSqlProviderName(String sqlProviderName) {
         this.sqlProviderName = sqlProviderName;
     }
+
+    public List<SearchCondition> getConditionList() {
+        return conditionList;
+    }
+
+    public void setConditionList(List<SearchCondition> conditionList) {
+        this.conditionList = conditionList;
+    }
+
+    public void addCondition(SearchCondition condition) {
+        this.conditionList.add(condition);
+    }
+
 }

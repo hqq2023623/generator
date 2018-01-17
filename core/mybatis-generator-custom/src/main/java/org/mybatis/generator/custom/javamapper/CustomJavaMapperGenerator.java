@@ -99,8 +99,6 @@ public class CustomJavaMapperGenerator extends AbstractJavaClientGenerator {
         FullyQualifiedJavaType importEntity = new FullyQualifiedJavaType(fullEntity.toString());
         interfaze.addImportedType(importEntity);
 
-
-
         List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
         if (context.getPlugins().clientGenerated(interfaze, null,
                 introspectedTable)) {
