@@ -81,8 +81,11 @@ public class CustomResultMapElementGenerator extends
 
         List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
         for (IntrospectedColumn introspectedColumn : columns) {
+            //跳过<result column="id"/>
+            if("id".equalsIgnoreCase(MyBatis3FormattingUtilities.getRenamedColumnNameForResultMap(introspectedColumn))) {
+                continue;
+            }
             XmlElement resultElement = new XmlElement("result"); //$NON-NLS-1$
-
             resultElement
                     .addAttribute(new Attribute(
                             "column", MyBatis3FormattingUtilities.getRenamedColumnNameForResultMap(introspectedColumn))); //$NON-NLS-1$

@@ -41,7 +41,7 @@
             targetPackage     指定生成的model生成所在的包名
             targetProject     指定在该项目下所在的路径
         -->
-        <javaModelGenerator targetPackage="${export.package}.domain" targetProject="">
+        <javaModelGenerator targetPackage="${export.package}.domain" targetProject="${target.project}">
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="true"/>
             <!-- 是否对model添加 构造函数 -->
@@ -53,28 +53,21 @@
 
         <!--mapper.xml映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 -->
         <!--<sqlMapGenerator targetPackage="mappers" targetProject=".\src\main\resources">-->
-        <sqlMapGenerator targetPackage="mappers" targetProject="" >
+        <sqlMapGenerator targetPackage="mappers" targetProject="${target.project}" >
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- targetPackage：mapper接口mapper.java生成的位置 -->
         <!--<javaClientGenerator type="XMLMAPPER" targetPackage="com.mmall.dao" targetProject=".\src\main\java">-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="${export.package}.mapper" targetProject="">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="${export.package}.mapper" targetProject="${target.project}">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="true"/>
             <property name="rootInterface" value="org.mybatis.generator.custom.base.BaseMapper"/>
         </javaClientGenerator>
 
 
-        <table tableName="t_user" domainObjectName="UserEntity">
-            <searchCondition>
-                <!--like只生成前缀查询 xxx%-->
-                <condition column="name" property="name" operation="like"/>
-                <!--value为参数值 beginTime and endTime -->
-                <condition column="date" property="date" operation="between" value="true" secondValue="a"/>
-                <condition column="abc" operation=">" property="abc"  />
-            </searchCondition>
-        </table>
+        <table tableName="tbl_wx_mini_program_form_collect" domainObjectName="WxMiniProgramFormCollectEntity" />
+        <table tableName="tbl_wx_mini_program_push_task" domainObjectName="WxMiniProgramFormPushTaskEntity" />
 
 
     </context>

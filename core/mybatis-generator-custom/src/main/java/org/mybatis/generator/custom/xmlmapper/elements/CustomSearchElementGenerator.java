@@ -65,7 +65,7 @@ public class CustomSearchElementGenerator extends
         sb.append("FROM "); //$NON-NLS-1$
         sb.append(introspectedTable
                 .getAliasedFullyQualifiedTableNameAtRuntime());
-        sb.append("\n<include refid=\"where_by_param\" />");
+        sb.append("\n<include refid=\"where_for_search\" />");
         sb.append("\n");
         sb.append("            limit 0,1");
         sb.append("\n");
