@@ -1,4 +1,4 @@
-package org.mybatis.generator.custom.boostrap;
+package org.mybatis.generator.custom.main;
 
 import org.mybatis.generator.custom.api.CustomShellRunner;
 

@@ -75,9 +75,9 @@ public class CustomSelectElementGenerator extends
         answer.addAttribute(new Attribute("resultMap",
                 introspectedTable.getBaseResultMapId()));
 
-        //select的 parameterType属性
+        //select的 parameterType属性,用parameterMap
         String parameterType = introspectedTable.getBaseRecordType();
-        answer.addAttribute(new Attribute("parameterType", parameterType));
+        answer.addAttribute(new Attribute("parameterMap", introspectedTable.getBaseResultMapId()));
 
         context.getCommentGenerator().addComment(answer);
 
@@ -112,7 +112,7 @@ public class CustomSelectElementGenerator extends
 
         //select的 parameterType属性
         String parameterType = introspectedTable.getBaseRecordType();
-        answer.addAttribute(new Attribute("parameterType", parameterType));
+        answer.addAttribute(new Attribute("parameterMap", introspectedTable.getBaseResultMapId()));
 
         context.getCommentGenerator().addComment(answer);
 
@@ -153,7 +153,7 @@ public class CustomSelectElementGenerator extends
 
         //select的 parameterType属性
         String parameterType = introspectedTable.getBaseRecordType();
-        answer.addAttribute(new Attribute("parameterType", parameterType));
+        answer.addAttribute(new Attribute("parameterMap", introspectedTable.getBaseResultMapId()));
 
         context.getCommentGenerator().addComment(answer);
 
@@ -184,7 +184,7 @@ public class CustomSelectElementGenerator extends
 
         dynamicElement.addAttribute(new Attribute("prefix", "WHERE"));
         dynamicElement.addAttribute(new Attribute("prefixOverrides", "AND | OR "));
-        dynamicElement.addAttribute(new Attribute("suffixOverrides", ","));
+//        dynamicElement.addAttribute(new Attribute("suffixOverrides", ","));
 
         StringBuilder sb = new StringBuilder();
         String javaPropertyName;

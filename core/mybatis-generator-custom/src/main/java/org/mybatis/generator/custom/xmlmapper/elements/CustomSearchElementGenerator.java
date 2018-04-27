@@ -49,9 +49,9 @@ public class CustomSearchElementGenerator extends
         answer.addAttribute(new Attribute("resultMap",
                 introspectedTable.getBaseResultMapId()));
 
-        //select的 parameterType属性
-        String parameterType = introspectedTable.getBaseRecordType();
-        answer.addAttribute(new Attribute("parameterType", parameterType));
+        //select的 parameterType属性,用parameterMap
+//        String parameterType = introspectedTable.getBaseRecordType();
+        answer.addAttribute(new Attribute("parameterMap", introspectedTable.getBaseResultMapId()));
 
         context.getCommentGenerator().addComment(answer);
 
@@ -85,8 +85,8 @@ public class CustomSearchElementGenerator extends
                 introspectedTable.getBaseResultMapId()));
 
         //select的 parameterType属性
-        String parameterType = introspectedTable.getBaseRecordType();
-        answer.addAttribute(new Attribute("parameterType", parameterType));
+//        String parameterType = introspectedTable.getBaseRecordType();
+        answer.addAttribute(new Attribute("parameterMap", introspectedTable.getBaseResultMapId()));
         context.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
@@ -125,8 +125,8 @@ public class CustomSearchElementGenerator extends
                 "java.lang.Integer"));
 
         //select的 parameterType属性
-        String parameterType = introspectedTable.getBaseRecordType();
-        answer.addAttribute(new Attribute("parameterType", parameterType));
+//        String parameterType = introspectedTable.getBaseRecordType();
+        answer.addAttribute(new Attribute("parameterMap", introspectedTable.getBaseResultMapId()));
 
         context.getCommentGenerator().addComment(answer);
 
@@ -157,7 +157,7 @@ public class CustomSearchElementGenerator extends
 
         dynamicElement.addAttribute(new Attribute("prefix", "WHERE"));
         dynamicElement.addAttribute(new Attribute("prefixOverrides", "AND | OR "));
-        dynamicElement.addAttribute(new Attribute("suffixOverrides", ","));
+//        dynamicElement.addAttribute(new Attribute("suffixOverrides", ","));
 
         CustomTableConfiguration customTableConfiguration = (CustomTableConfiguration) introspectedTable.getTableConfiguration();
         List<SearchCondition> conditionList = customTableConfiguration.getConditionList();

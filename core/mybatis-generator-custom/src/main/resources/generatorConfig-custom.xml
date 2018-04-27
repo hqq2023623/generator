@@ -66,9 +66,7 @@
         </javaClientGenerator>
 
 
-        <table tableName="tbl_wx_mini_program_form_collect" domainObjectName="WxMiniProgramFormCollectEntity" />
-        <table tableName="tbl_wx_mini_program_push_task" domainObjectName="WxMiniProgramFormPushTaskEntity" />
-
+        <table tableName="t_user" domainObjectName="UserEntity" />
 
     </context>
 </generatorConfiguration>

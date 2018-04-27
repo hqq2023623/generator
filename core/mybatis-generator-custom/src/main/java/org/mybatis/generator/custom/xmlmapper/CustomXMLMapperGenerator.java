@@ -112,7 +112,7 @@ public class CustomXMLMapperGenerator extends AbstractXmlGenerator {
 
     protected void addInsertSelectiveElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateInsertSelective()) {
-            AbstractXmlElementGenerator elementGenerator = new InsertSelectiveElementGenerator();
+            AbstractXmlElementGenerator elementGenerator = new CustomInsertSelectiveElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
@@ -128,7 +128,7 @@ public class CustomXMLMapperGenerator extends AbstractXmlGenerator {
     protected void addUpdateByPrimaryKeySelectiveElement(
             XmlElement parentElement) {
         if (introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
-            AbstractXmlElementGenerator elementGenerator = new UpdateByPrimaryKeySelectiveElementGenerator();
+            AbstractXmlElementGenerator elementGenerator = new CustomUpdateByPrimaryKeySelectiveElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
