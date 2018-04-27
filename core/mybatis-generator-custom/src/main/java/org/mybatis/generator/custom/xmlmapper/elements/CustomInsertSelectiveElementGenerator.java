@@ -47,8 +47,8 @@ public class CustomInsertSelectiveElementGenerator extends
         FullyQualifiedJavaType parameterType = introspectedTable.getRules()
                 .calculateAllFieldsClass();
 
-        answer.addAttribute(new Attribute("parameterMap", //$NON-NLS-1$
-                introspectedTable.getBaseResultMapId()));
+        answer.addAttribute(new Attribute("parameterType", //$NON-NLS-1$
+                parameterType.getFullyQualifiedName()));
 
         context.getCommentGenerator().addComment(answer);
 

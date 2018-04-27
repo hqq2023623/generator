@@ -75,9 +75,9 @@ public class CustomSelectElementGenerator extends
         answer.addAttribute(new Attribute("resultMap",
                 introspectedTable.getBaseResultMapId()));
 
-        //select的 parameterType属性,用parameterMap
+        //select的 parameterType属性
         String parameterType = introspectedTable.getBaseRecordType();
-        answer.addAttribute(new Attribute("parameterMap", introspectedTable.getBaseResultMapId()));
+        answer.addAttribute(new Attribute("parameterType", parameterType));
 
         context.getCommentGenerator().addComment(answer);
 
@@ -112,7 +112,7 @@ public class CustomSelectElementGenerator extends
 
         //select的 parameterType属性
         String parameterType = introspectedTable.getBaseRecordType();
-        answer.addAttribute(new Attribute("parameterMap", introspectedTable.getBaseResultMapId()));
+        answer.addAttribute(new Attribute("parameterType", parameterType));
 
         context.getCommentGenerator().addComment(answer);
 
@@ -153,7 +153,7 @@ public class CustomSelectElementGenerator extends
 
         //select的 parameterType属性
         String parameterType = introspectedTable.getBaseRecordType();
-        answer.addAttribute(new Attribute("parameterMap", introspectedTable.getBaseResultMapId()));
+        answer.addAttribute(new Attribute("parameterType", parameterType));
 
         context.getCommentGenerator().addComment(answer);
 

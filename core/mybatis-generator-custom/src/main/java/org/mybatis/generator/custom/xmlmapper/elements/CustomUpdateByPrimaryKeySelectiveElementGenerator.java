@@ -41,17 +41,17 @@ public class CustomUpdateByPrimaryKeySelectiveElementGenerator extends
 
         answer.addAttribute(new Attribute(
                 "id", introspectedTable.getUpdateByPrimaryKeySelectiveStatementId())); //$NON-NLS-1$
-//
-//        String parameterType;
-//
-//        if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
-//            parameterType = introspectedTable.getRecordWithBLOBsType();
-//        } else {
-//            parameterType = introspectedTable.getBaseRecordType();
-//        }
 
-        answer.addAttribute(new Attribute("parameterMap", //$NON-NLS-1$
-                introspectedTable.getBaseResultMapId()));
+        String parameterType;
+
+        if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
+            parameterType = introspectedTable.getRecordWithBLOBsType();
+        } else {
+            parameterType = introspectedTable.getBaseRecordType();
+        }
+
+        answer.addAttribute(new Attribute("parameterType", //$NON-NLS-1$
+                parameterType));
 
         context.getCommentGenerator().addComment(answer);
 
