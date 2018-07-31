@@ -51,6 +51,8 @@ public class CustomInsertSelectiveElementGenerator extends
                 parameterType.getFullyQualifiedName()));
         answer.addAttribute(new Attribute("keyProperty", //$NON-NLS-1$
                 "id"));
+        answer.addAttribute(new Attribute("useGeneratedKeys", //$NON-NLS-1$
+                "true"));
 
         context.getCommentGenerator().addComment(answer);
 
