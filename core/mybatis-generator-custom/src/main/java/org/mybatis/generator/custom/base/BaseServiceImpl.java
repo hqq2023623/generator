@@ -6,84 +6,77 @@ import java.util.List;
  * @author lzj
  * @date 2018/1/15
  */
-public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
+public abstract class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
 
-    private BaseMapper<T> baseMapper;
+    public abstract BaseMapper<T> getBaseMapper();
 
-    public BaseMapper<T> getBaseMapper() {
-        return baseMapper;
-    }
-
-    public void setBaseMapper(BaseMapper<T> baseMapper) {
-        this.baseMapper = baseMapper;
-    }
 
     @Override
     public int insert(T entity) throws Exception {
-        return baseMapper.insert(entity);
+        return getBaseMapper().insert(entity);
     }
 
     @Override
     public int delete(Long id) throws Exception {
-        return baseMapper.delete(id);
+        return getBaseMapper().delete(id);
     }
 
     @Override
     public int update(T entity) throws Exception {
-        return baseMapper.update(entity);
+        return getBaseMapper().update(entity);
     }
 
     @Override
     public List<T> selectAll() {
-        return baseMapper.selectAll();
+        return getBaseMapper().selectAll();
     }
 
     @Override
     public T selectById(Long id) {
-        return baseMapper.selectById(id);
+        return getBaseMapper().selectById(id);
     }
 
     @Override
     public T selectOne(T entity) {
-        return baseMapper.selectOne(entity);
+        return getBaseMapper().selectOne(entity);
     }
 
     @Override
     public T searchOne(T entity) {
-        return baseMapper.searchOne(entity);
+        return getBaseMapper().searchOne(entity);
     }
 
     @Override
     public List<T> selectList(T entity) {
-        return baseMapper.selectList(entity);
+        return getBaseMapper().selectList(entity);
     }
 
     @Override
     public PageResult<T> pageSelect(T entity) {
-        List<T> rows = baseMapper.selectList(entity);
-        Integer count = baseMapper.selectCount(entity);
+        List<T> rows = getBaseMapper().selectList(entity);
+        Integer count = getBaseMapper().selectCount(entity);
         return new PageResult(count, rows);
     }
 
     @Override
     public int selectCountByParam(T entity) {
-        return baseMapper.selectCount(entity);
+        return getBaseMapper().selectCount(entity);
     }
 
     @Override
     public List<T> searchByParam(T entity) {
-        return baseMapper.searchList(entity);
+        return getBaseMapper().searchList(entity);
     }
 
     @Override
     public PageResult<T> searchPage(T entity) {
-        List<T> rows = baseMapper.searchList(entity);
-        Integer count = baseMapper.searchCount(entity);
+        List<T> rows = getBaseMapper().searchList(entity);
+        Integer count = getBaseMapper().searchCount(entity);
         return new PageResult(count, rows);
     }
 
     @Override
     public int searchCountByParam(T entity) {
-        return baseMapper.searchCount(entity);
+        return getBaseMapper().searchCount(entity);
     }
 }
