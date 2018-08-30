@@ -1,5 +1,6 @@
 package org.mybatis.generator.custom.base;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements IBaseServ
     public PageResult<T> pageSelect(T entity) {
         List<T> rows = getBaseMapper().selectList(entity);
         Integer count = getBaseMapper().selectCount(entity);
-        return new PageResult(count, rows);
+        return new PageResult<>(count, rows);
     }
 
     @Override
@@ -70,9 +71,12 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements IBaseServ
 
     @Override
     public PageResult<T> searchPage(T entity) {
-        List<T> rows = getBaseMapper().searchList(entity);
         Integer count = getBaseMapper().searchCount(entity);
-        return new PageResult(count, rows);
+        if(count == 0) {
+            return new PageResult<>(count,new LinkedList<>());
+        }
+        List<T> rows = getBaseMapper().searchList(entity);
+        return new PageResult<>(count, rows);
     }
 
     @Override
