@@ -54,8 +54,11 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements IBaseServ
 
     @Override
     public PageResult<T> pageSelect(T entity) {
-        List<T> rows = getBaseMapper().selectList(entity);
         Integer count = getBaseMapper().selectCount(entity);
+        if(count == 0) {
+            return new PageResult<>(count,new LinkedList<>());
+        }
+        List<T> rows = getBaseMapper().selectList(entity);
         return new PageResult<>(count, rows);
     }
 
