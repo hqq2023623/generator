@@ -1,16 +1,17 @@
 package org.mybatis.generator.custom.base;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author lzj
  * @date 2018/1/7
  */
-public interface BaseMapper<T extends BaseEntity> {
+public interface BaseMapper<ID extends Serializable,T extends BaseEntity> {
 
     int insert(T entity) throws Exception;
 
-    int delete(Long id) throws Exception;
+    int delete(ID id) throws Exception;
 
     int update(T entity) throws Exception;
 
@@ -27,7 +28,7 @@ public interface BaseMapper<T extends BaseEntity> {
      * @param id
      * @return
      */
-    T selectById(Long id);
+    T selectById(ID id);
 
     /**
      * 精确查询单条记录

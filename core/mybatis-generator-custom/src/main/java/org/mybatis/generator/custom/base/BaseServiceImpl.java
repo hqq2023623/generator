@@ -1,5 +1,6 @@
 package org.mybatis.generator.custom.base;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,9 +8,9 @@ import java.util.List;
  * @author lzj
  * @date 2018/1/15
  */
-public abstract class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
+public abstract class BaseServiceImpl<ID extends Serializable,T extends BaseEntity> implements IBaseService<ID,T> {
 
-    public abstract BaseMapper<T> getBaseMapper();
+    public abstract BaseMapper<ID,T> getBaseMapper();
 
 
     @Override
@@ -18,7 +19,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements IBaseServ
     }
 
     @Override
-    public int delete(Long id) throws Exception {
+    public int delete(ID id) throws Exception {
         return getBaseMapper().delete(id);
     }
 
@@ -33,7 +34,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements IBaseServ
     }
 
     @Override
-    public T selectById(Long id) {
+    public T selectById(ID id) {
         return getBaseMapper().selectById(id);
     }
 
